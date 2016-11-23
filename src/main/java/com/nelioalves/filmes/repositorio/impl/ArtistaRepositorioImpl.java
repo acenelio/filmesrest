@@ -6,13 +6,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nelioalves.filmes.dominio.Artista;
 import com.nelioalves.filmes.repositorio.ArtistaRepositorioCustom;
 
-@Component
-public class ArtistaRepositorioCustomImpl implements ArtistaRepositorioCustom {
+@Repository
+@Transactional(readOnly=true)
+public class ArtistaRepositorioImpl implements ArtistaRepositorioCustom {
 
 	@PersistenceContext
 	private EntityManager em;

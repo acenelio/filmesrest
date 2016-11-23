@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.nelioalves.filmes.dominio.Artista;
 import com.nelioalves.filmes.repositorio.ArtistaRepositorio;
-import com.nelioalves.filmes.repositorio.ArtistaRepositorioCustom;
 import com.nelioalves.filmes.servico.excecoes.NaoEncontradoException;
 import com.nelioalves.filmes.servico.excecoes.ServicoException;
 import com.nelioalves.filmes.servico.excecoes.ValidacaoException;
@@ -18,9 +17,6 @@ public class ArtistaServico {
 
 	@Autowired
 	private ArtistaRepositorio repo;
-
-	@Autowired
-	private ArtistaRepositorioCustom repoCustom;
 
 	public void validar(Artista x) {
 		List<String> erros = new ArrayList<>();
@@ -44,7 +40,7 @@ public class ArtistaServico {
 	}
 	
 	public Artista inserir(Artista x) throws ServicoException {
-		Artista aux = repoCustom.buscarNomeExato(x.getNome());
+		Artista aux = repo.buscarNomeExato(x.getNome());
 		if (aux != null) {
 			throw new ServicoException("Já existe um artista com esse nome!", 1);
 		}
@@ -57,7 +53,7 @@ public class ArtistaServico {
 		if (aux == null) {
 			throw new NaoEncontradoException("Artista não encontrado!", 1);
 		}
-		aux = repoCustom.buscarNomeExato(x.getNome());
+		aux = repo.buscarNomeExato(x.getNome());
 		if (aux != null && aux.getCodArtista()!=x.getCodArtista()) {
 			throw new ServicoException("Já existe um outro artista com esse nome!", 1);
 		}
@@ -85,10 +81,10 @@ public class ArtistaServico {
 	}
 	
 	public List<Artista> buscarTodosOrdenadosPorNome() {
-		return repoCustom.buscarTodosOrdenadosPorNome();
+		return repo.buscarTodosOrdenadosPorNome();
 	}
 	
 	public List<Artista> buscarPorNome(String trecho) {
-		return repoCustom.buscarPorNome(trecho);
+		return repo.buscarPorNome(trecho);
 	}
 }
